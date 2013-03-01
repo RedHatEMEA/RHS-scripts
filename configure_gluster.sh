@@ -24,8 +24,8 @@
 #Let s define some variables
 GLUSTERHOSTS=
 SATELLITEFDQN=satellite.coe.muc.redhat.com
-SATELLITEUSER=gpscadmin
-SATELLITEPASS=redhat
+#SATELLITEUSER=
+#SATELLITEPASS=
 SATELLITEKEY=4-rhs
 GLUSTERPV=/dev/vdb
 GLUSTERVG=vg01
@@ -77,5 +77,9 @@ mkfs -t xfs -i size=512 /dev/$GLUSTERVG/$GLUSTERLV
 mkdir $GLUSTEREXPORT
 
 #Add correct entry to fstab
-
-echo `xfs_admin -u /dev/$GLUSTERVG/$GLUSTERLV` $GLUSTEREXPORT  xfs  allocsize=4096,inode64 0 0 >> /etc/fstab
+if  grep -q $GLUSTEREXPORT /etc/fstab
+	then 
+		echo "You allready have the entry with this UUID in your fstab"
+	else
+		echo `xfs_admin -u /dev/$GLUSTERVG/$GLUSTERLV` $GLUSTEREXPORT  xfs  allocsize=4096,inode64 0 0 >> /etc/fstab
+fi
