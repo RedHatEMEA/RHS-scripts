@@ -1,0 +1,26 @@
+1. Create a kickstart tree from the RHS2.0 ISO in /var/satellite/rhn/kickstarts by `rsync`ing all but the rpm's, like documented in the RHN Satellite documentation.
+
+2. Create a distribution based on this tree.
+
+3. Then `satellite-synce`d all necessary channels and set that up in Satellite like so:
+
+        Parent: RHEL EUS Server (v. 6.2.z for 64-bit x86_64)
+        Childs:
+        - Red Hat Storage Server 2.0 (RHEL 6.2.z for x86_64)
+        - RHEL EUS Server Scalable File System (v. 6.2.z for x86_64)
+        - RHEL Server Optional (v. 6 64-bit x86_64)
+        - RHN Tools for RHEL (v. 6 for 64-bit x86_64)
+
+4. Create a kickstart profile with above parent channel and distribution
+
+5. Create activation-key "rhs" with all necessary packages (from rhs ks.cfg)
+
+6. Create post script with posts from rhs ks.cfg
+
+7. Put the scripts from initrd.img ks.cfg from the iso in the Satellite Kickstart.
+
+And then install using the kickstart. Will this be the supported way to install RHS2.0? We do have some customer requests asking for the same kind of solution. Your inputs will be highly appreciated.
+
+Also, there is one more private KBase solution created which depicts another way.
+
+        https://access.redhat.com/knowledge/solutions/298803
